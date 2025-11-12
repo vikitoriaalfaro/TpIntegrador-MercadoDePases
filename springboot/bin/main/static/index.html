@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Datos — Usuarios, Ligas y Equipos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin: 6px 0;
+        }
+        img {
+            max-width: 100px;
+            border-radius: 6px;
+            vertical-align: middle;
+        }
+        .equipo-card {
+            display: inline-block;
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📊 Información del Sistema</h1>
+
+<!-- Usuarios -->
+<section>
+    <h2>👤 Usuarios</h2>
+    <ul id="listaUsuarios">Cargando usuarios...</ul>
+</section>
+
+<!-- Ligas -->
+<section>
+    <h2>🏆 Ligas</h2>
+    <ul id="listaLigas">Cargando ligas...</ul>
+</section>
+
+<!-- Equipos -->
+<section>
+    <h2>⚽ Equipos</h2>
+    <div id="listaEquipos">Cargando equipos...</div>
+</section>
+<!-- Jugadores -->
+<section>
+    <h2>👤 Jugadores</h2>
+    <ul id="listaJugadores">Cargando jugadores...</ul>
+</section>
+
+<script>
+    // ========== USUARIOS ==========
+    fetch('/usuarios')
+        .then(r => r.json())
+        .then(usuarios => {
+            const lista = document.getElementById('listaUsuarios');
+            lista.innerHTML = "";
+            usuarios.forEach(u => {
+                const li = document.createElement('li');
+                li.textContent = `Nombre: ${u.nombre_usuario} — Mail: ${u.mail}`;
+                lista.appendChild(li);
+            });
+        })
+        .catch(err => {
+            console.error("Error al obtener usuarios:", err);
+            document.getElementById('listaUsuarios').textContent = "Error al cargar usuarios.";
+        });
+
+    // ========== LIGAS ==========
+    fetch('/ligas')
+        .then(r => r.json())
+        .then(ligas => {
+            const lista = document.getElementById('listaLigas');
+            lista.innerHTML = "";
+            ligas.forEach(l => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+              <p>Nombre: ${l.nombre_liga} ${l.pais}</p>
+              <img src="${l.imagen_liga_url}" alt="${l.nombre_liga}" width="100">
+          `;
+                lista.appendChild(li);
+            });
+        })
+        .catch(err => {
+            console.error("Error al obtener ligas:", err);
+            document.getElementById('listaLigas').textContent = "Error al cargar ligas.";
+        });
+
+    // ========== EQUIPOS ==========
+    fetch('/equipos')
+        .then(r => r.json())
+        .then(equipos => {
+            const contenedor = document.getElementById('listaEquipos');
+            contenedor.innerHTML = "";
+            equipos.forEach(eq => {
+                const div = document.createElement('div');
+                div.classList.add('equipo-card');
+                div.innerHTML = `
+                        <img src="/equipos/${eq.id_equipo}/imagen" alt="${eq.nombre_equipo}">
+                        <p><strong>${eq.nombre_equipo}</strong></p>
+                        <p>Liga: ${eq.liga ? eq.liga.nombre_liga : 'Sin liga'}</p>
+                    `;
+                contenedor.appendChild(div);
+            });
+        })
+        .catch(err => {
+            console.error("Error al obtener equipos:", err);
+            document.getElementById('listaEquipos').textContent = "Error al cargar equipos.";
+        });
+    // ========== JUGADORES ==========
+        fetch('/jugadores')
+        .then(r => r.json())
+        .then(jugadores => {
+        const lista = document.getElementById('listaJugadores');
+        lista.innerHTML = "";
+
+        jugadores.forEach(j => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+              <p>Nombre: ${j.nombre_jugador} ${j.apellido}</p>
+              <img src="${j.jugador_imagen_url}" alt="${j.nombre_jugador}" width="100">
+          `;
+        lista.appendChild(li);
+    });
+    });
+
+
+
+</script>
+
+</body>
+</html>

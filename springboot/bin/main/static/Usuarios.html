@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Datos de Usuarios</title>
+</head>
+<body>
+<h1>Información de Usuarios</h1>
+<ul id="listaUsuarios"></ul>
+
+<script>
+    fetch('http://localhost:8083/Usuario/all')
+        .then(response => response.json())
+        .then(data => {
+            const lista = document.getElementById('listaUsuarios');
+            lista.innerHTML = '';
+            data.forEach(usuario => {
+                const item = document.createElement('li');
+                item.textContent = `Nombre: ${usuario.nombre_usuario} - Mail: ${usuario.mail}`;
+                lista.appendChild(item);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener los usuarios:', error);
+        });
+</script>
+
+</body>
+</html>

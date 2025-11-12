@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Datos de Ligas</title>
+</head>
+<body>
+<h1>Información de Ligas</h1>
+<ul id="listaLigas"></ul>
+
+<script>
+    fetch('http://localhost:8083/Liga/all')
+        .then(response => response.json())
+        .then(data => {
+            const lista = document.getElementById('listaLigas');
+            lista.innerHTML = '';
+            data.forEach(liga => {
+                const item = document.createElement('li');
+                item.textContent = `Nombre: ${liga.nombre_liga} - Division: ${liga.division}`;
+                lista.appendChild(item);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener las ligas:', error);
+        });
+</script>
+
+</body>
+</html>

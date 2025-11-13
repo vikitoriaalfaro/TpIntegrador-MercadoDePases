@@ -38,7 +38,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (24,'admin','admin@mail.com','admin123',0),(25,'juan23','juan23@mail.com','pass123',0),(26,'mariaG','mariaG@mail.com','123456',0),(27,'pablo22','pablo22@mail.com','securePass',0),(28,'lauraM','lauraM@mail.com','qwerty',0),(29,'andresF','andresF@mail.com','football',0),(30,'carla99','carla99@mail.com','rumorPass',0),(31,'luis33','luis33@mail.com','pass4321',0),(32,'sofiaP','sofiaP@mail.com','mypassword',0),(33,'tomasZ','tomasZ@mail.com','zeta123',0),(36,'Mateo Fazzito','mateo.fazzito@example.com','12345',0);
+INSERT INTO `usuario` VALUES (24,'admin','admin@mail.com','admin123',0),(25,'juan23','juan23@mail.com','pass123',0),(26,'mariaG','mariaG@mail.com','123456',0),(27,'pablo22','pablo22@mail.com','securePass',0),(28,'lauraM','lauraM@mail.com','qwerty',0),(29,'andresF','andresF@mail.com','football',0),(30,'carla99','carla99@mail.com','rumorPass',0),(31,'luis33','luis33@mail.com','pass4321',0),(32,'sofiaP','sofiaP@mail.com','mypassword',0),(33,'tomasZ','tomasZ@mail.com','zeta123',20),(36,'Mateo Fazzito','mateo.fazzito@example.com','12345',0);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-29  9:52:42
+-- Dump completed on 2025-11-13 11:58:28

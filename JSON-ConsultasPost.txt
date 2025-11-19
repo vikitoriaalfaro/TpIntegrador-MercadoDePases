@@ -1,0 +1,36 @@
+RegistroUsuarios:
+{
+  "nombre_usuario": "Mateo",
+  "mail": "mateo@example.com",
+  "contrasenia": "123456",
+  "puntos": 0,
+  "foto_usuario": null
+}
+RegistrarRumor:
+{
+  "id_jugador": 14,
+  "id_equipo_viejo": 25,
+  "id_equipo_nuevo": 24,
+  "id_usuario": 24
+}
+ValorarRumor:
+{
+(solo con presionar send se actualiza)
+}
+ArmarEquipo-Ideal:
+{
+  "id_usuario": 33,
+  "id_jugador1": 14,
+  "id_jugador2": 15,
+  "id_jugador3": 16,
+  "id_jugador4": 17,
+  "id_jugador5": 18,
+  "id_jugador6": 19,
+  "id_jugador7": 20,
+  "id_jugador8": 21,
+  "id_jugador9": 22,
+  "id_jugador10": 23,
+  "id_jugador11": 24
+}
+
+

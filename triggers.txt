@@ -1,0 +1,72 @@
+----------TRIGGERS 
+DELIMITER ;;
+ CREATE TRIGGER `despuesDeCrearXIIdeal` AFTER INSERT ON `xi_ideal` FOR EACH ROW begin
+update usuario set puntos=puntos+10 where id_usuario=new.id_usuario;
+end ;;
+DELIMITER ;
+
+DELIMITER ;;
+create trigger `despuesDeCrearUsuario` after insert on `usuario` for each row begin
+update usuario set puntos=0 where id_usuario=new.id_usuario;
+end ;;
+DELIMITER ;
+
+
+DELIMITER ;;
+CREATE TRIGGER `despuesDeRealizarFichaje` AFTER INSERT ON `fichaje` FOR EACH ROW begin
+update rumor set esCorrecto="CORRECTO" where jugador_idjugador_rumor=new.jugador_idjugador and equipo_idequipo_nuevo_rumor=new.equipo_idequipo_nuevo and equipo_idequipo_viejo_rumor=new.equipo_idequipo_viejo;
+end ;;
+DELIMITER ;
+
+
+
+---------PROCEDURES-----
+
+DELIMITER ;;
+CREATE PROCEDURE `paseMejorValorado`(fechaInicio date, fechafinal date)
+begin
+select * from rumor where valoracion=(select max(valoracion) from rumor) and rumor.fechaCreacion between fechaInicio and fechaFinal;
+end ;;
+DELIMITER ;
+
+
+-----------EVENTOS----------
+
+DELIMITER ;;
+CREATE EVENT `reseteoPuntos` ON SCHEDULE EVERY 1 MONTH STARTS '2025-10-23 11:16:33' DO begin
+update usuario set puntos=0 where 
+id_usuario not in (select usuario_id_usuario from rumor 
+where fecha_creacion >= date_sub(current_date(), INTERVAL 1 MONTH)) 
+and
+id_usuario not in(select id_usuario_like from like_usuario_rumor 
+where fecha_like >= date_sub(current_date(), INTERVAL 1 MONTH))
+and
+id_usuario not in(select id_usuario from xi_ideal
+where fecha_creacion >= date_sub(current_date(), INTERVAL 1 MONTH))
+and
+id_usuario not in(select id_usuario from like_usuario_xi_ideal
+where fecha_like >= date_sub(current_date(), INTERVAL 1 MONTH));
+end ;;
+DELIMITER ;
+
+
+DELIMITER ;;
+CREATE EVENT `notificarRumor` ON SCHEDULE EVERY 1 DAY STARTS '2025-10-23 00:00:00'  DO begin 
+	declare hayFilas boolean default 1;
+    declare estadoRumor VARCHAR(45);
+    declare id_rumor_actual int;
+    declare id_usuario_rumorCorrecto int;
+    declare cursorRumor cursor for select id_rumor,es_correcto,usuario_id_usuario from rumor;
+    declare continue handler for not found set hayFilas=0;
+    open cursorRumor;
+    bucle:loop
+		fetch cursorRumor into id_rumor_actual,estadoRumor,id_usuario_rumorCorrecto;
+		IF ((estadoRumor='CORRECTO') and (id_rumor_actual not in(select id_rumor_notificacion))) THEN
+			insert into notificacion (id_notificacion,usuario_id_usuario,jugador_idjugador_rumor)
+            values(null,id_usuario_rumorCorrecto,id_rumor_actual);
+        END IF;
+	end loop bucle;
+	close cursorRumor;
+end ;;
+DELIMITER ;
+

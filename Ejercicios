@@ -5,11 +5,6 @@ update usuario set puntos=puntos+10 where id_usuario=new.id_usuario;
 end ;;
 DELIMITER ;
 
-DELIMITER ;;
-create trigger `despuesDeCrearUsuario` after insert on `usuario` for each row begin
-update usuario set puntos=0 where id_usuario=new.id_usuario;
-end ;;
-DELIMITER ;
 
 
 DELIMITER ;;
@@ -69,4 +64,5 @@ CREATE EVENT `notificarRumor` ON SCHEDULE EVERY 1 DAY STARTS '2025-10-23 00:00:0
 	close cursorRumor;
 end ;;
 DELIMITER ;
+
 

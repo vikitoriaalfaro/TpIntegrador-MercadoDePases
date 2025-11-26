@@ -28,7 +28,7 @@ DELIMITER ;
 -----------EVENTOS----------
 
 DELIMITER ;;
-CREATE EVENT `reseteoPuntos` ON SCHEDULE EVERY 1 MONTH STARTS '2025-10-23 11:16:33' DO begin
+CREATE EVENT `reseteoPuntos` ON SCHEDULE EVERY 1 MONTH STARTS NOW() DO begin
 update usuario set puntos=0 where 
 id_usuario not in (select usuario_id_usuario from rumor 
 where fecha_creacion >= date_sub(current_date(), INTERVAL 1 MONTH)) 
@@ -64,5 +64,6 @@ CREATE EVENT `notificarRumor` ON SCHEDULE EVERY 1 DAY STARTS '2025-10-23 00:00:0
 	close cursorRumor;
 end ;;
 DELIMITER ;
+
 
 

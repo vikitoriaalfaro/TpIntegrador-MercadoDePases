@@ -20,8 +20,9 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `paseMejorValorado`(fechaInicio date, fechafinal date)
 begin
-select * from rumor where valoracion=(select max(valoracion) from rumor) and rumor.fechaCreacion between fechaInicio and fechaFinal;
-end ;;
+select * from rumor where valoracion=(select max(valoracion) from rumor
+ where rumor.fechaCreacion between fechaInicio and fechaFinal) and rumor.fechaCreacion between fechaInicio and fechaFinal;
+end ;
 DELIMITER ;
 
 
@@ -64,6 +65,7 @@ CREATE EVENT `notificarRumor` ON SCHEDULE EVERY 1 DAY STARTS '2025-10-23 00:00:0
 	close cursorRumor;
 end ;;
 DELIMITER ;
+
 
 
 

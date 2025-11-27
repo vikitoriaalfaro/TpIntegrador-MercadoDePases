@@ -21,10 +21,9 @@ DELIMITER ;;
 CREATE PROCEDURE `paseMejorValorado`(fechaInicio date, fechafinal date)
 begin
 select * from rumor where valoracion=(select max(valoracion) from rumor
- where rumor.fechaCreacion between fechaInicio and fechaFinal) and rumor.fechaCreacion between fechaInicio and fechaFinal;
-end ;
+ where rumor.fecha_creacion between fechaInicio and fechafinal) and rumor.fecha_creacion between fechaInicio and fechafinal;
+end ;;
 DELIMITER ;
-
 
 -----------EVENTOS----------
 
@@ -57,6 +56,9 @@ CREATE EVENT `notificarRumor` ON SCHEDULE EVERY 1 DAY STARTS '2025-10-23 00:00:0
     open cursorRumor;
     bucle:loop
 		fetch cursorRumor into id_rumor_actual,estadoRumor,id_usuario_rumorCorrecto;
+        if hayFilas=0 then
+			leave bucle;
+        end if;
 		IF ((estadoRumor='CORRECTO') and (id_rumor_actual not in(select id_rumor_notificacion))) THEN
 			insert into notificacion (id_notificacion,usuario_id_usuario,jugador_idjugador_rumor)
             values(null,id_usuario_rumorCorrecto,id_rumor_actual);
@@ -65,6 +67,7 @@ CREATE EVENT `notificarRumor` ON SCHEDULE EVERY 1 DAY STARTS '2025-10-23 00:00:0
 	close cursorRumor;
 end ;;
 DELIMITER ;
+
 
 
 
